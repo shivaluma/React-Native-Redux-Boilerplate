@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { API } from 'services'
 // import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -11,22 +12,18 @@ import { API } from 'services'
 export const signin = createAsyncThunk(
   'users/login',
   async ({ email, password }, { rejectWithValue }) => {
-    console.log(email, password);
-    try {
-     
+    try { 
       const res = await API.post('user/login', {
         email,
         password,
       })
       
-      
       return res;
     } catch (err) {
-     
-      if (!err.response) {
+      if(!err.data){
         throw err
       }
-      return rejectWithValue(err.response.data)
+      return rejectWithValue(err.data)
     }
   },
 )
@@ -35,20 +32,22 @@ export const signin = createAsyncThunk(
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-  
     user: null,
+    loggedIn: false,
   },
   reducers: {
-    setUser(_, action) {
-      return action.payload
+    setUser(state, action) {
+      state.user=action.payload;
     },
-    removeUser() {
-      return null
+    removeUser(state, action) {
+      state.user = null;
+      state.loggedIn = false;
     },
   },
   extraReducers: {
     [signin.fulfilled]: (state, action) => {
-      state.user = action.payload
+      state.loggedIn = true;
+      state.user = action.payload.userInfo
     },
    
   },

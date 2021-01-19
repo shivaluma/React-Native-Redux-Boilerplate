@@ -2,24 +2,22 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
 import { useDispatch } from 'react-redux';
-import { signin } from 'store/user';
+import { setUser, signin } from 'store/user';
 
 const Login = (props) => {
     const {navigation} = props;
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState('');
   const dispatch = useDispatch();
 
   const loginHandler = async() => {
       if(!email||!password) return;
-      console.log("login");
       const result = await dispatch(signin({email, password}));
       if(signin.fulfilled.match(result)){
-          console.log("ok");
+          console.log("Login success!");
       }else {
-          if(result.error){
-              console.log(result.error.message);
-          }
+         setErrors(result.payload.message);
       }
   }
   return (
@@ -29,6 +27,7 @@ const Login = (props) => {
         <TextInput
           style={styles.inputText}
           placeholder="Email..."
+          autoCapitalize="none"
           placeholderTextColor="#003f5c"
           onChangeText={(text) => setEmail(text)}
         />
@@ -42,6 +41,7 @@ const Login = (props) => {
           onChangeText={(text) => setPassword(text)}
         />
       </View>
+      <Text style={styles.errors}>{errors && errors}</Text>
       <View style={styles.buttonGroup}>
         <TouchableOpacity onPress={loginHandler} style={styles.loginBtn}>
           <Text style={styles.loginText}>LOGIN</Text>
@@ -78,11 +78,11 @@ const styles = StyleSheet.create({
   },
   inputText: {
     height: 50,
-    color: 'white',
+    color: 'black',
   },
-  forgot: {
-    color: 'white',
-    fontSize: 11,
+  errors: {
+    color: 'red',
+    fontSize: 14,
   },
   buttonGroup: {
       flex: 0.5,
