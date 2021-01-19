@@ -12,7 +12,7 @@ const userScreens = {
 }
 const Stack = createStackNavigator();
 const MainStack = () => {
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   return (
     <Stack.Navigator>
       {Object.entries({
