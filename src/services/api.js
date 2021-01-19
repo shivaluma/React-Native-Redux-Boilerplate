@@ -7,7 +7,7 @@ const instance = axios.create({
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
-  timeout: 3000,
+  timeout: 5000,
 })
 
 export const handleError = ({ message, data, status }) => {
@@ -15,10 +15,16 @@ export const handleError = ({ message, data, status }) => {
 }
 
 instance.interceptors.response.use(
-  (response) => response,
-  ({ message, response: { data, status } }) => {
-    return handleError({ message, data, status })
+  (response) => {
+    if (response && response.data) {
+      return response.data;
+    }
+
+    return response;
   },
+  (error) => {
+    throw error;
+  }
 )
 
 export default instance
