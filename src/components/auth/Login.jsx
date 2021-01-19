@@ -1,11 +1,27 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
+import { useDispatch } from 'react-redux';
+import { signin } from 'store/user';
 
 const Login = (props) => {
     const {navigation} = props;
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+
+  const loginHandler = async() => {
+      if(!username||!password) return;
+      console.log("login");
+      const result = await dispatch(signin({username, password}));
+      if(signin.fulfilled.match(result)){
+         
+      }else {
+          if(result.error){
+              console.log(result.error.message);
+          }
+      }
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>Redux App</Text>
@@ -14,7 +30,7 @@ const Login = (props) => {
           style={styles.inputText}
           placeholder="Username..."
           placeholderTextColor="#003f5c"
-          onChangeText={(text) => setEmail(text)}
+          onChangeText={(text) => setUsername(text)}
         />
       </View>
       <View style={styles.inputView}>
@@ -27,7 +43,7 @@ const Login = (props) => {
         />
       </View>
       <View style={styles.buttonGroup}>
-        <TouchableOpacity style={styles.loginBtn}>
+        <TouchableOpacity onPress={loginHandler} style={styles.loginBtn}>
           <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>

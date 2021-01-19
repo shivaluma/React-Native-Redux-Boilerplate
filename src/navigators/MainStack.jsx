@@ -1,7 +1,8 @@
-import { Login, Register } from "components/auth"
-import { Home } from "components/Home"
+import { Login, Register } from 'components/auth'
+import { Home } from 'components/Home'
 import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack'
+import { useSelector } from 'react-redux'
 const authScreens = {
   Login: Login,
   Register: Register,
@@ -10,16 +11,16 @@ const authScreens = {
 const userScreens = {
   Home: Home,
 }
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 const MainStack = () => {
-  const isLoggedIn = false;
+  const user = useSelector((state) => state.user)
   return (
     <Stack.Navigator>
       {Object.entries({
         // Use some screens conditionally based on some condition
-        ...(isLoggedIn ? userScreens : authScreens),
+        ...(user.loggedIn ? userScreens : authScreens),
       }).map(([name, component]) => (
-        <Stack.Screen name={name} component={component} />
+        <Stack.Screen key={name} name={name} component={component} />
       ))}
     </Stack.Navigator>
   )

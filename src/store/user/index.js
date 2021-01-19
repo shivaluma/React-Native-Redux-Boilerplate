@@ -17,12 +17,11 @@ export const signin = createAsyncThunk(
         password,
       })
 
-      return res.data
+      return res.data;
     } catch (err) {
       if (!err.response) {
         throw err
       }
-
       return rejectWithValue(err.response.data)
     }
   },
