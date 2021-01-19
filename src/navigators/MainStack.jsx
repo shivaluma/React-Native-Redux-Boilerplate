@@ -1,4 +1,4 @@
-import { Login, Register } from 'components/auth'
+import { Login, Register } from 'components/Auth'
 import { Home } from 'components/Home'
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'

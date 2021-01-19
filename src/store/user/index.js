@@ -10,15 +10,19 @@ import { API } from 'services'
 
 export const signin = createAsyncThunk(
   'users/login',
-  async ({ username, password }, { rejectWithValue }) => {
+  async ({ email, password }, { rejectWithValue }) => {
+    console.log(email, password);
     try {
+     
       const res = await API.post('user/login', {
-        username,
+        email,
         password,
       })
-
-      return res.data;
+      
+      
+      return res;
     } catch (err) {
+     
       if (!err.response) {
         throw err
       }
@@ -31,7 +35,7 @@ export const signin = createAsyncThunk(
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    loggedIn: false,
+  
     user: null,
   },
   reducers: {
@@ -44,9 +48,9 @@ const userSlice = createSlice({
   },
   extraReducers: {
     [signin.fulfilled]: (state, action) => {
-      state.loggedIn = true
       state.user = action.payload
     },
+   
   },
 })
 

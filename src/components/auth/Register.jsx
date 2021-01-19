@@ -12,7 +12,7 @@ const Register = (props) => {
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
-          placeholder="Username..."
+          placeholder="Email..."
           placeholderTextColor="#003f5c"
           onChangeText={(text) => setEmail(text)}
         />

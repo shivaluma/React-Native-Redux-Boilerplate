@@ -6,16 +6,16 @@ import { signin } from 'store/user';
 
 const Login = (props) => {
     const {navigation} = props;
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
 
   const loginHandler = async() => {
-      if(!username||!password) return;
+      if(!email||!password) return;
       console.log("login");
-      const result = await dispatch(signin({username, password}));
+      const result = await dispatch(signin({email, password}));
       if(signin.fulfilled.match(result)){
-         
+          console.log("ok");
       }else {
           if(result.error){
               console.log(result.error.message);
@@ -28,9 +28,9 @@ const Login = (props) => {
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
-          placeholder="Username..."
+          placeholder="Email..."
           placeholderTextColor="#003f5c"
-          onChangeText={(text) => setUsername(text)}
+          onChangeText={(text) => setEmail(text)}
         />
       </View>
       <View style={styles.inputView}>
