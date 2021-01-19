@@ -9,12 +9,17 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 import { store, persistor } from 'store/configureStore'
 import './translations'
 import { Demo } from 'components'
+
+import { NavigationContainer } from '@react-navigation/native'
+import { MainStack } from 'navigators'
 const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         {/* Put navigation here */}
-        <Demo />
+        <NavigationContainer>
+          <MainStack />
+        </NavigationContainer>
         <StatusBar style="auto" />
       </PersistGate>
     </Provider>
