@@ -4,6 +4,31 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { API } from 'services'
 // import AsyncStorage from '@react-native-async-storage/async-storage'
 
+
+
+// Actions
+
+export const signin = createAsyncThunk(
+  'users/login',
+  async ({ username, password }, { rejectWithValue }) => {
+    try {
+      const res = await API.post('user/login', {
+        username,
+        password,
+      })
+
+      return res.data
+    } catch (err) {
+      if (!err.response) {
+        throw err
+      }
+
+      return rejectWithValue(err.response.data)
+    }
+  },
+)
+
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -30,24 +55,3 @@ export const { setUser, removeUser } = userSlice.actions
 
 export default userSlice.reducer
 
-// Actions
-
-export const signin = createAsyncThunk(
-  'users/login',
-  async ({ username, password }, { rejectWithValue }) => {
-    try {
-      const res = await API.post('user/login', {
-        username,
-        password,
-      })
-
-      return res.data
-    } catch (err) {
-      if (!err.response) {
-        throw err
-      }
-
-      return rejectWithValue(err.response.data)
-    }
-  },
-)

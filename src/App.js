@@ -1,35 +1,28 @@
+import { StatusBar } from 'expo-status-bar'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import 'react-native-gesture-handler'
+
+import { registerRootComponent } from 'expo'
+
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
-import { store, persistor } from 'store'
-import 'translations'
-
+import { store, persistor } from 'store/configureStore'
+import './translations'
+import { Demo } from 'components'
 const App = () => {
-  const { t } = useTranslation()
-
   return (
     <Provider store={store}>
-    
       <PersistGate loading={null} persistor={persistor}>
-        <View style={styles.container}>
-          <Text>{t('welcome')}</Text>
-          <StatusBar style="auto" />
-        </View>
+        {/* Put navigation here */}
+        <Demo />
+        <StatusBar style="auto" />
       </PersistGate>
-
-      
     </Provider>
   )
 }
 
 export default App
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
+
+
+registerRootComponent(App)
